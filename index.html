@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Word Generator</title>
+    <style>
+        @font-face {
+            font-family: 'Comic Mono';
+            src: url('assets/ComicMono.ttf') format('truetype');
+        }
+        @keyframes scaleUp {
+            0% { transform: scale(1.05)}
+            50% { transform: scale(1.1)}
+            100% { transform: scale(1)}
+        }
+
+        body {
+            margin: 0 auto;
+            justify-content: center;
+            align-items: center;
+            /* max-width: 600px; */
+        }
+        #word {
+            opacity: 1;
+            color:black;
+            transition: font-size 0.05s ease;
+            
+        }
+        #word:hover {
+            color:rgb(53, 53, 53);
+            cursor: pointer;
+            font-size: 3.1rem;
+        }
+        #word.pop {
+            animation: scaleUp 0.3s ease;
+        }
+
+        #container {
+            font-size: 3rem;
+            position: fixed;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        #def {
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 1rem;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            position: fixed;
+            max-width: 700px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 4rem;
+        }
+        h2 {
+            text-align: center;
+            position: fixed;
+            font-size: 1.5rem;
+            top: 10%;
+            left: 35%;
+        }
+
+        button {
+            padding: 15px;
+            position: fixed;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            background-color: lightgrey;
+            width: 300px;
+            height: 50px;
+            transition: 0.1s;
+
+        }
+        #changer {
+            padding: 15px;
+            position: fixed;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+        }
+        #changerButton {
+            width: 300px;
+            height: 50px;
+            padding: 15px;
+            transition: all 0.1s ease;
+            top: 65%;
+        }
+        #changerButton:hover {
+            width: 305px;
+            height: 51.6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            filter: brightness(0.95);
+        }
+        #genButton:hover {
+            width: 305px;
+            height: 51.6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            filter: brightness(0.95);
+        }
+
+        .comic-mono {
+            font-family: 'Comic Mono', monospace;
+        }
+        .no-hyphens {
+            background: rgb(153, 243, 18);
+        }
+        .hyphens {
+            background-color: rgb(211, 72, 211);
+        }
+        .rounded-square {
+        width: 800px;         /* Defines the width of the square */
+        height: 500px;        /* Defines the height, making it a square */
+        background-color: rgb(178, 178, 178); /* Sets the background color */
+        border-radius: 20px;  /* Rounds all four corners by 20 pixels */
+        border: 5px solid rgb(66, 66, 66);
+        transform: translate(53%,-0%)
+        }
+    </style> 
+
+</head>
+<h1 class="comic-mono">
+    Random Word Generator :D
+</h1>
+<h2 class="comic-mono">
+    (yes, this is comic sans monospace font)
+</h2>
+<body>
+    <!-- <div id="square" class="rounded-square"></div> -->
+    <div id="container">
+    <div id="word" class="comic-mono" onclick="copy()"></div>
+    </div>
+    <div id="def" class="comic-mono"></div>
+    <button type="button" id="genButton" onclick="genWord()">
+        Generate new word!
+    </button>
+    <!-- <div id="changer"> -->
+    <button type="button" id="changerButton" class="no-hyphens" onclick="wordListSwitch()">
+
+    </button>
+    
+    </body>
+    <script>
+        list = "alpha";
+        const changerText = "I want hyphens and weird numbers!";
+        document.getElementById('changerButton').textContent = changerText;
+
+        function wordListSwitch() {
+            switch (list) {
+                case "alpha":
+                list = "full";
+                document.getElementById('changerButton').textContent = "I don't want hyphens and weird numbers!"
+                document.getElementById('changerButton').classList.toggle('no-hyphens');
+                document.getElementById('changerButton').classList.toggle('hyphens');
+                break;
+
+                case "full":
+                list = "alpha"
+                document.getElementById('changerButton').textContent = "I want hyphens and weird numbers!"
+                document.getElementById('changerButton').classList.toggle('no-hyphens');
+                document.getElementById('changerButton').classList.toggle('hyphens');
+                break;
+            }
+        }
+         
+        function copy() {
+            const word = document.getElementById("word").innerText;
+            navigator.clipboard.writeText(word).then(() => {
+                console.log("Word copied to clipboard!");
+            }).catch(err => {
+            console.error("Failed to copy:", err);
+            });
+        }
+
+       const apiKey = "c47a2f06-e18d-4744-901a-adb9f2ccdbd4";
+
+        function genWord() {
+        const wordElement = document.getElementById("word");
+        // wordElement.style.opacity = 0; HEY get outa here
+    
+    
+        if (list == "alpha")
+        {
+            fetch("words_alpha.txt")
+            .then(response => response.text())
+            .then(text => {
+                const words = text.split("\n").filter(w => w.trim() !== "");
+                let i = Math.floor(Math.random() * words.length);
+                const selectedWord = words[i];
+                document.getElementById("word").innerText = selectedWord;
+                
+                    // Add pop animation
+                    wordElement.classList.remove('pop');
+                    void wordElement.offsetWidth; // Force reflow
+                    wordElement.classList.add('pop');
+
+                // Fetch definition from Merriam-Webster API
+                fetch(`https://www.dictionaryapi.com/api/v3/references/collegiate/json/${selectedWord}?key=${apiKey}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.length > 0 && data[0].shortdef) {
+                        const definition = data[0].shortdef[0];
+                        console.log(`${selectedWord}: ${definition}`);
+                        document.getElementById("def").innerText = definition;
+                    } else {
+                        console.log("Definition not found");
+                        document.getElementById("def").innerHTML = "¯\\_(ツ)_/¯  ";
+                    }
+                })
+                .catch(err => console.log("Definition not found"));
+                
+                wordElement.style.opacity = 1;
+            })
+            .catch(err => console.error(err));
+        }
+        if (list == "full")
+        {
+            fetch("words.txt")
+            .then(response => response.text())
+            .then(text => {
+                const words = text.split("\n").filter(w => w.trim() !== "");
+                let i = Math.floor(Math.random() * words.length);
+                const selectedWord = words[i];
+                document.getElementById("word").innerText = selectedWord;
+                
+                    // Add pop animation
+                    wordElement.classList.remove('pop');
+                    void wordElement.offsetWidth; // Force reflow
+                    wordElement.classList.add('pop');
+
+                // Fetch definition from Merriam-Webster API
+                fetch(`https://www.dictionaryapi.com/api/v3/references/collegiate/json/${selectedWord}?key=${apiKey}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.length > 0 && data[0].shortdef) {
+                        const definition = data[0].shortdef[0];
+                        console.log(`${selectedWord}: ${definition}`);
+                        document.getElementById("def").innerText = definition;
+                    } else {
+                        console.log("Definition not found");
+                        document.getElementById("def").innerText = "¯\\_(ツ)_/¯ ";
+                    }
+                })
+                .catch(err => console.log("Definition not found"));
+                
+                wordElement.style.opacity = 1;
+                
+            })
+            .catch(err => console.error(err));
+        }
+    }
+        genWord(); 
+
+        
+</script>
+</body>
+</html>
