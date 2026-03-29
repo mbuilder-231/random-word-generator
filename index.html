@@ -5,7 +5,133 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random Word Generator</title>
     <style>
-        @font-face {
+@font-face {
+  font-family: 'Comic Mono';
+  src: url('assets/ComicMono.ttf') format('truetype');
+}
+
+@keyframes scaleUp {
+  0% { transform: scale(1.05); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#word {
+  opacity: 1;
+  color: black;
+  transition: font-size 0.05s ease;
+}
+
+#word:hover {
+  color: rgb(53, 53, 53);
+  cursor: pointer;
+  font-size: 3.1rem;
+}
+
+#word.pop {
+  animation: scaleUp 0.3s ease;
+}
+
+#container {
+  font-size: clamp(1.5rem, 7vw, 3rem);
+  position: static;
+  text-align: center;
+  margin: 30px 0 10px;
+}
+
+#def {
+  position: static;
+  text-align: center;
+  font-size: clamp(0.85rem, 3vw, 1rem);
+  max-width: min(700px, 90vw);
+  margin: 10px auto 20px;
+  min-height: 2em;
+}
+
+h1 {
+  text-align: center;
+  font-size: clamp(1.8rem, 6vw, 4rem);
+  margin-bottom: 0.2em;
+}
+
+h2 {
+  text-align: center;
+  position: static;
+  font-size: clamp(0.8rem, 3vw, 1.5rem);
+  margin-top: 0;
+}
+
+button {
+  display: block;
+  padding: 15px;
+  position: static;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  background-color: lightgrey;
+  width: min(300px, 90vw);
+  height: 50px;
+  margin: 10px auto;
+  transition: 0.1s;
+}
+
+#changer {
+  padding: 15px;
+  width: min(600px, 90vw);
+}
+
+#changerButton {
+  width: min(300px, 90vw);
+  height: 50px;
+  padding: 15px;
+  transition: all 0.1s ease;
+  display: block;
+  margin: 10px auto;
+}
+
+#changerButton:hover {
+  width: min(305px, 90vw);
+  height: 51.6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  filter: brightness(0.95);
+}
+
+#genButton:hover {
+  width: min(305px, 90vw);
+  height: 51.6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  filter: brightness(0.95);
+}
+
+.comic-mono {
+  font-family: 'Comic Mono', monospace;
+}
+
+.no-hyphens {
+  background: rgb(153, 243, 18);
+}
+
+.hyphens {
+  background-color: rgb(211, 72, 211);
+}
+
+.rounded-square {
+  width: min(800px, 90vw);
+  height: 500px;
+  background-color: rgb(178, 178, 178);
+  border-radius: 20px;
+  border: 5px solid rgb(66, 66, 66);
+}
+        /* @font-face {
             font-family: 'Comic Mono';
             src: url('assets/ComicMono.ttf') format('truetype');
         }
@@ -13,13 +139,13 @@
             0% { transform: scale(1.05)}
             50% { transform: scale(1.1)}
             100% { transform: scale(1)}
-        }
+        } */
 
-        body {
+        /* body {
             margin: 0 auto;
             justify-content: center;
             align-items: center;
-            /* max-width: 600px; */
+            
         }
         #word {
             opacity: 1;
@@ -120,13 +246,13 @@
             background-color: rgb(211, 72, 211);
         }
         .rounded-square {
-        width: 800px;         /* Defines the width of the square */
-        height: 500px;        /* Defines the height, making it a square */
-        background-color: rgb(178, 178, 178); /* Sets the background color */
-        border-radius: 20px;  /* Rounds all four corners by 20 pixels */
+        width: 800px;       
+        height: 500px;        
+        background-color: rgb(178, 178, 178);
+        border-radius: 20px;  
         border: 5px solid rgb(66, 66, 66);
         transform: translate(53%,-0%)
-        }
+        } */
     </style> 
 
 </head>
